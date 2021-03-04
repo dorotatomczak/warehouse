@@ -1,0 +1,273 @@
+databaseChangeLog:
+  - preConditions:
+      - runningAs:
+          username: sa
+  - changeSet:
+      id: 1
+      author: dorota
+      changes:
+        - createTable:
+            tableName: warehouses
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_warehouses
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(256)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: products
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_products
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(256)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: publisher
+                  type: varchar(256)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: decimal
+                  constraints:
+                    nullable: false
+              - column:
+                  name: modified
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: products_in_warehouses
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_products_in_warehouses
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: warehouse_id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: int
+                  constraints:
+                    nullable: false
+              - addForeignKeyConstraint:
+                  baseColumnNames: product_id
+                  baseTableName: products_in_warehouses
+                  constraintName: fk_products_in_warehouses_products
+                  referencedTableName: products
+                  referencedColumnNames: id
+              - addForeignKeyConstraint:
+                  baseColumnNames: warehouse_id
+                  baseTableName: products_in_warehouses
+                  constraintName: fk_products_in_warehouses_warehouses
+                  referencedTableName: warehouses
+                  referencedColumnNames: id
+  - changeSet:
+      id: 2
+      author: dorota
+      changes:
+        - insert:
+            tableName: warehouses
+            columns:
+              - column:
+                  name: name
+                  value: 'Warehouse 1'
+        - insert:
+            tableName: warehouses
+            columns:
+              - column:
+                  name: name
+                  value: 'Warehouse 2'
+        - insert:
+            tableName: warehouses
+            columns:
+              - column:
+                  name: name
+                  value: 'Warehouse 3'
+        - insert:
+            tableName: products
+            columns:
+              - column:
+                  name: name
+                  value: 'Divinity: Original Sin'
+              - column:
+                  name: publisher
+                  value: Larian Studios
+              - column:
+                  name: price
+                  value: 1000.00
+              - column:
+                  name: modified
+                  value: '2012-09-17 18:47:52.69'
+        - insert:
+            tableName: products
+            columns:
+              - column:
+                  name: name
+                  value: Grand Theft Auto V
+              - column:
+                  name: publisher
+                  value: Rockstar Games
+              - column:
+                  name: price
+                  value: 10.99
+              - column:
+                  name: modified
+                  value: '2012-09-17 18:47:52.69'
+        - insert:
+            tableName: products
+            columns:
+              - column:
+                  name: name
+                  value: The Last of Us
+              - column:
+                  name: publisher
+                  value: Naughty Dog
+              - column:
+                  name: price
+                  value: 17.01
+              - column:
+                  name: modified
+                  value: '2012-09-17 18:47:52.69'
+  - changeSet:
+      id: 3
+      author: dorota
+      changes:
+        - insert:
+            tableName: products_in_warehouses
+            columns:
+              - column:
+                  name: product_id
+                  value: 1
+              - column:
+                  name: warehouse_id
+                  value: 1
+              - column:
+                  name: quantity
+                  value: 1
+        - insert:
+            tableName: products_in_warehouses
+            columns:
+              - column:
+                  name: product_id
+                  value: 1
+              - column:
+                  name: warehouse_id
+                  value: 2
+              - column:
+                  name: quantity
+                  value: 0
+        - insert:
+            tableName: products_in_warehouses
+            columns:
+              - column:
+                  name: product_id
+                  value: 1
+              - column:
+                  name: warehouse_id
+                  value: 3
+              - column:
+                  name: quantity
+                  value: 0
+        - insert:
+            tableName: products_in_warehouses
+            columns:
+              - column:
+                  name: product_id
+                  value: 2
+              - column:
+                  name: warehouse_id
+                  value: 1
+              - column:
+                  name: quantity
+                  value: 1000
+        - insert:
+            tableName: products_in_warehouses
+            columns:
+              - column:
+                  name: product_id
+                  value: 2
+              - column:
+                  name: warehouse_id
+                  value: 2
+              - column:
+                  name: quantity
+                  value: 0
+        - insert:
+            tableName: products_in_warehouses
+            columns:
+              - column:
+                  name: product_id
+                  value: 2
+              - column:
+                  name: warehouse_id
+                  value: 3
+              - column:
+                  name: quantity
+                  value: 0
+        - insert:
+            tableName: products_in_warehouses
+            columns:
+              - column:
+                  name: product_id
+                  value: 3
+              - column:
+                  name: warehouse_id
+                  value: 1
+              - column:
+                  name: quantity
+                  value: 0
+        - insert:
+            tableName: products_in_warehouses
+            columns:
+              - column:
+                  name: product_id
+                  value: 3
+              - column:
+                  name: warehouse_id
+                  value: 2
+              - column:
+                  name: quantity
+                  value: 0
+        - insert:
+            tableName: products_in_warehouses
+            columns:
+              - column:
+                  name: product_id
+                  value: 3
+              - column:
+                  name: warehouse_id
+                  value: 3
+              - column:
+                  name: quantity
+                  value: 43

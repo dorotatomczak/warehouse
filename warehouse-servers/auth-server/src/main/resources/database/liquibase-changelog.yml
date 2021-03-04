@@ -1,0 +1,340 @@
+databaseChangeLog:
+  - preConditions:
+      - runningAs:
+          username: sa
+  - changeSet:
+      id: 1
+      author: dorota
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  type: varchar(256)
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_user
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(256)
+              - column:
+                  name: enabled
+                  type: boolean
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 2
+      author: dorota
+      changes:
+        - createTable:
+            tableName: groups
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_group
+                    nullable: false
+              - column:
+                  name: group_name
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 3
+      author: dorota
+      changes:
+        - createTable:
+            tableName: group_authorities
+            columns:
+              - column:
+                  name: group_id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: authority
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: group_id
+            baseTableName: group_authorities
+            constraintName: fk_group_authorities_group
+            referencedTableName: groups
+            referencedColumnNames: id
+  - changeSet:
+      id: 4
+      author: dorota
+      changes:
+        - createTable:
+            tableName: group_members
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_group_member
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: group_id
+                  type: int
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: group_id
+            baseTableName: group_members
+            constraintName: fk_group_members_group
+            referencedTableName: groups
+            referencedColumnNames: id
+  - changeSet:
+      id: 5
+      author: dorota
+      changes:
+        - insert:
+            tableName: users
+            # manager:manager
+            columns:
+              - column:
+                  name: username
+                  value: manager
+              - column:
+                  name: password
+                  value: $2a$12$Y.GBZBXN8Ov9A42yOK1aaOAHSXn8bZOj6QOiPo8RQPd5LZv2WpOMm
+              - column:
+                  name: enabled
+                  value: TRUE
+        - insert:
+            tableName: users
+            # employee:employee
+            columns:
+              - column:
+                  name: username
+                  value: employee
+              - column:
+                  name: password
+                  value: $2a$12$zYQ/rqNvvKvbO5ioDyhAiOL25qyqpFOv6ZbpGJu4tKALEwtpyJI/u
+              - column:
+                  name: enabled
+                  value: TRUE
+        - insert:
+            tableName: groups
+            columns:
+              - column:
+                  name: group_name
+                  value: MANAGERS
+        - insert:
+            tableName: groups
+            columns:
+              - column:
+                  name: group_name
+                  value: EMPLOYEES
+        - insert:
+            tableName: group_authorities
+            columns:
+              - column:
+                  name: group_id
+                  value: 1
+              - column:
+                  name: authority
+                  value: INVENTORY_VIEW
+        - insert:
+            tableName: group_authorities
+            columns:
+              - column:
+                  name: group_id
+                  value: 1
+              - column:
+                  name: authority
+                  value: INVENTORY_ADD
+        - insert:
+            tableName: group_authorities
+            columns:
+              - column:
+                  name: group_id
+                  value: 1
+              - column:
+                  name: authority
+                  value: INVENTORY_REMOVE
+        - insert:
+            tableName: group_authorities
+            columns:
+              - column:
+                  name: group_id
+                  value: 1
+              - column:
+                  name: authority
+                  value: INVENTORY_MODIFY
+        - insert:
+            tableName: group_authorities
+            columns:
+              - column:
+                  name: group_id
+                  value: 2
+              - column:
+                  name: authority
+                  value: INVENTORY_VIEW
+        - insert:
+            tableName: group_authorities
+            columns:
+              - column:
+                  name: group_id
+                  value: 2
+              - column:
+                  name: authority
+                  value: INVENTORY_MODIFY
+        - insert:
+            tableName: group_authorities
+            columns:
+              - column:
+                  name: group_id
+                  value: 2
+              - column:
+                  name: authority
+                  value: INVENTORY_ADD
+        - insert:
+            tableName: group_members
+            columns:
+              - column:
+                  name: group_id
+                  value: 1
+              - column:
+                  name: username
+                  value: manager
+        - insert:
+            tableName: group_members
+            columns:
+              - column:
+                  name: group_id
+                  value: 2
+              - column:
+                  name: username
+                  value: employee
+  - changeSet:
+      # OAuth tables
+      id: 6
+      author: dorota
+      changes:
+        - createTable:
+            tableName: oauth_client_details
+            columns:
+              - column:
+                  name: client_id
+                  type: varchar(256)
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_oauth_client_details
+                    nullable: false
+              - column:
+                  name: resource_ids
+                  type: varchar(256)
+              - column:
+                  name: client_secret
+                  type: varchar(256)
+              - column:
+                  name: scope
+                  type: varchar(256)
+              - column:
+                  name: authorized_grant_types
+                  type: varchar(256)
+              - column:
+                  name: web_server_redirect_uri
+                  type: varchar(256)
+              - column:
+                  name: authorities
+                  type: varchar(256)
+              - column:
+                  name: access_token_validity
+                  type: int
+              - column:
+                  name: refresh_token_validity
+                  type: int
+              - column:
+                  name: additional_information
+                  type: varchar(4096)
+              - column:
+                  name: autoapprove
+                  type: varchar(256)
+        - createTable:
+            tableName: oauth_access_token
+            columns:
+              - column:
+                  name: token_id
+                  type: varchar(256)
+              - column:
+                  name: token
+                  type: binary
+              - column:
+                  name: authentication_id
+                  type: varchar(256)
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_oauth_access_token
+                    nullable: false
+              - column:
+                  name: user_name
+                  type: varchar(256)
+              - column:
+                  name: client_id
+                  type: varchar(256)
+              - column:
+                  name: refresh_token
+                  type: varchar(256)
+              - column:
+                  name: authentication
+                  type: binary
+        - createTable:
+            tableName: oauth_refresh_token
+            columns:
+              - column:
+                  name: token_id
+                  type: varchar(256)
+              - column:
+                  name: token
+                  type: binary
+              - column:
+                  name: authentication
+                  type: binary
+  - changeSet:
+      id: 7
+      author: dorota
+      changes:
+        - insert:
+            tableName: oauth_client_details
+            columns:
+              - column:
+                  name: client_id
+                  value: appclient
+              - column:
+                  name: client_secret
+                  # appclient123
+                  value: $2a$12$8mTSLn0D1kspNAkynUVUn.qafYVq5DSA/uhjSLAdydyegPp4SHx5G
+              - column:
+                  name: resource_ids
+                  value: productsInventory
+              - column:
+                  name: scope
+                  value: read,write
+              - column:
+                  name: authorized_grant_types
+                  value: authorization_code,check_token,refresh_token,password
+              - column:
+                  name: access_token_validity
+                  value: 10000000
+              - column:
+                  name: refresh_token_validity
+                  value: 10000000
+

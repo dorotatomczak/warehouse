@@ -1,0 +1,9 @@
+**/.gradle
+**/.DS_Store
+*.iml
+**/.idea/
+*.class
+*.zip
+*.out
+**/build
+api.properties

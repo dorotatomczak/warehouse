@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <item
+        android:id="@+id/menuOnlineMode"
+        android:title="@string/online_mode"
+        app:actionViewClass="androidx.appcompat.widget.SwitchCompat"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menuChangeWarehouse"
+        android:icon="@drawable/ic_warehouse"
+        android:title="@string/change_warehouse"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menuLogout"
+        android:icon="@drawable/ic_logout"
+        android:title="@string/logout"
+        app:showAsAction="ifRoom" />
+
+</menu>

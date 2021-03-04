@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="signInViewModel"
+            type="com.dorotatomczak.warehouseapp.ui.signin.SignInViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutSignIn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        tools:context=".ui.signin.SignInActivity">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:contentDescription="@string/application_logo"
+            android:src="@drawable/ic_gamepad" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editTextUsername"
+                android:layout_width="250dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:autofillHints="username"
+                android:background="@drawable/text_view_background"
+                android:drawablePadding="8dp"
+                android:hint="@string/username"
+                android:inputType="text"
+                android:paddingHorizontal="8dp"
+                android:text="@={signInViewModel.username}"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/colorHint"
+                app:drawableStartCompat="@drawable/ic_user" />
+
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="250dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:autofillHints="password"
+                android:background="@drawable/text_view_background"
+                android:drawablePadding="8dp"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:paddingHorizontal="8dp"
+                android:text="@={signInViewModel.password}"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/colorHint"
+                app:drawableStartCompat="@drawable/ic_lock" />
+
+            <Button
+                android:id="@+id/buttonLogin"
+                android:layout_width="250dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/button_background"
+                android:forceDarkAllowed="false"
+                android:onClick="@{() -> signInViewModel.onSignIn()}"
+                android:text="@string/sign_in"
+                android:textColor="@android:color/white"
+                tools:ignore="UnusedAttribute" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:text="@string/or"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white" />
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/buttonGoogleSignIn"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:forceDarkAllowed="false"
+                tools:ignore="UnusedAttribute" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonRegister"
+            android:layout_width="250dp"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/button_background"
+            android:forceDarkAllowed="false"
+            android:onClick="@{() -> signInViewModel.onSignUp()}"
+            android:text="@string/sign_up"
+            android:textColor="@android:color/white"
+            tools:ignore="UnusedAttribute" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@android:style/Widget.ProgressBar.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="@{signInViewModel.isLoading ? View.VISIBLE : View.GONE}" />
+
+    </RelativeLayout>
+
+</layout>
